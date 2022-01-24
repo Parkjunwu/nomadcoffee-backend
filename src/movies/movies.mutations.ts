@@ -19,5 +19,4 @@ const resolvers:resolver = {
     })
   }
 }
-
 export default resolvers;
