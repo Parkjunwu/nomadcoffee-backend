@@ -5,7 +5,7 @@ import * as bcrypt from "bcrypt"
 const resolvers: resolver = {
   Mutation: {
     createUser: async(_,{username,password,email,name,location,avatarURL,githubUsername}) => {
-      // try{
+      try{
         if(!username || !email) {
           return {ok:false, error:"username and email is required. Please check and write that."}
         }
@@ -53,10 +53,10 @@ const resolvers: resolver = {
         } else {
           return {ok:false, error:"Cannot create account. Server Database error."}
         }
-      // } catch (e) {
-      //   console.log(e);
-      //   return {ok:false, error:"Cannot create account. Unknown error."}
-      // }
+      } catch (e) {
+        console.log(e);
+        return {ok:false, error:"Cannot create account. Unknown error."}
+      }
     }
   }
 };
