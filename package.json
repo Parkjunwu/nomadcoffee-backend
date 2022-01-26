@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/server --ext js,ts",
     "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio"
@@ -25,11 +24,12 @@
     "@graphql-tools/schema": "^8.3.1",
     "@prisma/client": "^3.8.1",
     "apollo-server": "^2.25.2",
+    "bcrypt": "^5.0.1",
     "dotenv": "^14.2.0",
     "graphql": "^15.8.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.10",
+    "@types/bcrypt": "^5.0.0",
     "nodemon": "^2.0.15",
     "prisma": "^3.8.1",
     "ts-node": "^10.4.0",

@@ -6,7 +6,6 @@ import { makeExecutableSchema } from "@graphql-tools/schema"
 const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.*`);
 const loadResolver = loadFilesSync(`${__dirname}/**/*.{queries,mutations}.*`);
 
-
 export const typeDefs = mergeTypeDefs(loadedTypes);
 export const resolvers:any = mergeResolvers(loadResolver);
 export const schema = makeExecutableSchema({ typeDefs, resolvers });

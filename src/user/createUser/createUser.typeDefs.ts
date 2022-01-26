@@ -6,8 +6,10 @@ const createUser = gql`
       username:String!
       password:String!
       email:String!
-      birthday:String
-      avatar:String
+      name:String!
+      location:String!
+      avatarURL:String
+      githubUsername:String
     ):MutationResult!
   }
 `;
