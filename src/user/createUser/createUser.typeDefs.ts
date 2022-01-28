@@ -8,7 +8,7 @@ const createUser = gql`
       email:String!
       name:String!
       location:String!
-      avatarURL:String
+      avatarURL:Upload
       githubUsername:String
     ):MutationResult!
   }

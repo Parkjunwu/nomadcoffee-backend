@@ -1,8 +1,10 @@
 import client from "../../client";
-import { resolver } from "../../type";
+import { 
+Resolver } from "../../type";
 import * as bcrypt from "bcrypt"
+import { async_uploadPhoto } from "../../aws";
 
-const resolvers: resolver = {
+const resolvers: Resolver = {
   Mutation: {
     createUser: async(_,{username,password,email,name,location,avatarURL,githubUsername}) => {
       try{
@@ -27,8 +29,7 @@ const resolvers: resolver = {
         if(isSameUser){
           return {ok:false, error:"There is already same user. Please rename."}
         }
-        const saltRounds = 10;
-        const storeInDBPassword = await bcrypt.hash(password, saltRounds)
+        const storeInDBPassword = await bcrypt.hash(password, 10)
         // bcrypt.compare(password, storeInDBPassword)
         if(!storeInDBPassword) {
           return {ok:false, error:"Cannot create account. Server error."}
@@ -40,15 +41,23 @@ const resolvers: resolver = {
             email,
             name,
             location,
-            avatarURL,
-            githubUsername
+            ...(githubUsername && {githubUsername})
           },
           select:{
             id:true
           }
         })
-        // console.log(ok);
         if(ok){
+          if(avatarURL) {
+            await client.user.update({
+              where:{
+                id: ok.id
+              },
+              data:{
+                avatarURL:await async_uploadPhoto(avatarURL,ok.id)
+              }
+            })
+          }
           return {ok:true}
         } else {
           return {ok:false, error:"Cannot create account. Server Database error."}

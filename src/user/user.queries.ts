@@ -1,6 +1,6 @@
-import { resolver } from "../type";
+import { Resolver } from "../type";
 
-const resolvers:resolver = {
+const resolvers:Resolver = {
   User: {
     
   }
