@@ -4,7 +4,8 @@ import { typeDefs,resolvers } from "./schema";
 import * as jwt from "jsonwebtoken"
 import client from "./client";
 import * as express from "express"
-import * as http from "http"
+import * as logger from "morgan"
+// import * as http from "http"
 
 const server = new ApolloServer({
   typeDefs,
@@ -24,7 +25,7 @@ const server = new ApolloServer({
         })
         // console.log(loggedInUser)
         return {loggedInUser, client}
-      }
+      } else { return { loggedInUser:null, client } }
     } catch (e) {
       console.log("error : " + e)
       return {loggedInUser:null, client};
@@ -35,14 +36,15 @@ const server = new ApolloServer({
 const PORT = process.env.PORT;
 
 const app = express();
-app.use("/static",express.static("uploads"));
+app.use(logger("tiny"))
+// app.use("/static",express.static("uploads"));
 server.applyMiddleware({ app });
 
-const httpServer = http.createServer(app);
-server.installSubscriptionHandlers(httpServer);
-// app.listen({ port: PORT }, () => {
-//   console.log(`🚀Server is running on http://localhost:${PORT} ✅`);
-// });
-httpServer.listen(PORT, () => {
+// const httpServer = http.createServer(app);
+// server.installSubscriptionHandlers(httpServer);
+app.listen({ port: PORT }, () => {
   console.log(`🚀Server is running on http://localhost:${PORT} ✅`);
 });
+// httpServer.listen(PORT, () => {
+//   console.log(`🚀Server is running on http://localhost:${PORT} ✅`);
+// });

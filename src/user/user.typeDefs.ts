@@ -9,6 +9,15 @@ const User = gql`
     location:String!
     avatarURL:String
     githubUsername:String
+
+    # follower:[User]
+    # following:[User]
+    totalFollowers:Int!
+    totalFollowing:Int!
+
+    isMe:Boolean!
+    isFollowing:Boolean
+
     createdAt:String!
     updatedAt:String!
   }
