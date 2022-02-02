@@ -58,12 +58,13 @@
 // export default resolver;
 
 
+import { async_uploadPhoto } from "../../aws";
 import { protectResolver } from "../../shared";
 import { Resolver } from "../../type";
 
 const resolver: Resolver = {
   Mutation: {
-    createCoffeeShop:protectResolver(async(_,{name,latitude,longitude,photoUrlArr,categories},{client,loggedInUser}) => {
+    createCoffeeShop:protectResolver(async(_,{name,latitude,longitude,photoUrl,categories},{client,loggedInUser}) => {
       // photoUrlArr.map((url:string)=>({url}))
       if(!name) {
         return {ok:false, error:"Please write coffee shop's name"}
@@ -96,6 +97,9 @@ const resolver: Resolver = {
         console.log(categoryArr)
         // /#[\w|ㄱ-ㅎ|가-힣|ㅏ-ㅣ]+/g
       }
+      // const photosUrl = async() => {
+      //   photoArr.map(async(photo:any) => loggedInUser?.id && ({url:await async_uploadPhoto(photo,loggedInUser.id)}) )
+      // }
       try {
         const ok = await client.coffeeShop.create({
           data:{
@@ -108,9 +112,14 @@ const resolver: Resolver = {
                 id:loggedInUser?.id
               }
             },
-            ...( photoUrlArr && {
+            // ...( photoUrlArr && {
+            //   photos:{
+            //     create: photoUrlArr.map((url:string) => ({url}) )
+            //   }
+            // }),
+            ...(photoUrl && {
               photos:{
-                create: photoUrlArr.map((url:string) => ({url}) )
+                create: loggedInUser?.id && ({url:await async_uploadPhoto(photoUrl,loggedInUser.id)})
               }
             }),
             ...(categoryArr && {

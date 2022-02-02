@@ -7,7 +7,7 @@ export default gql`
       latitude:String,
       longitude:String,
       # photoUrlArr:[Photo],
-      photoUrlArr:[String],
+      photoUrl:Upload,
       categories:String
     ):MutationResult!
   }

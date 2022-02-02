@@ -1,8 +1,9 @@
+import { async_uploadPhoto } from "../../aws";
 import { Resolver } from "../../type";
 
 const resolver: Resolver = {
   Mutation: {
-    editCoffeeShop: async(_,{id,name,latitude,longitude,deletePhotoIdArr,addPhotoUrlArr,prevCategories,categories},{client,loggedInUser})=>{
+    editCoffeeShop: async(_,{id,name,latitude,longitude,deletePhotoIdArr,addPhotoUrl,prevCategories,categories},{client,loggedInUser})=>{
       const ok = await client.user.findFirst({
         where:{
           id:loggedInUser?.id,
@@ -61,9 +62,10 @@ const resolver: Resolver = {
               delete: deletePhotoIdArr.map((id:number)=>({id}))
             }
           }),
-          ...(addPhotoUrlArr && {
+          ...(addPhotoUrl && {
             photos: {
-              create: addPhotoUrlArr.map((url:string)=>({url}))
+              // create: addPhotoArr.map((photo:any) => loggedInUser?.id && async_uploadPhoto(photo,loggedInUser.id) )
+              create: loggedInUser?.id && ({url:await async_uploadPhoto(addPhotoUrl,loggedInUser.id)})
             }
           }),
           ...(newCategoryArr && {

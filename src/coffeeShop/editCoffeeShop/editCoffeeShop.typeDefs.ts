@@ -8,7 +8,7 @@ export default gql`
       latitude:String,
       longitude:String,
       deletePhotoIdArr:[Int],
-      addPhotoUrlArr:[String],
+      addPhotoUrl:Upload,
       prevCategories:[String],
       categories:String
     ):MutationResult!

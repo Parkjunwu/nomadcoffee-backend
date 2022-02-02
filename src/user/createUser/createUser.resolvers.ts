@@ -7,6 +7,7 @@ import { async_uploadPhoto } from "../../aws";
 const resolvers: Resolver = {
   Mutation: {
     createUser: async(_,{username,password,email,name,location,avatarURL,githubUsername}) => {
+      console.log(avatarURL)
       try{
         if(!username || !email) {
           return {ok:false, error:"username and email is required. Please check and write that."}
