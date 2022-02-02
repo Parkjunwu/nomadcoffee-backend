@@ -18,6 +18,7 @@ const User = gql`
     isMe:Boolean!
     isFollowing:Boolean
 
+    coffeeShop:CoffeeShop
     createdAt:String!
     updatedAt:String!
   }

@@ -11,7 +11,7 @@ const resolver:Resolver = {
         }
       },
       take:10,
-      ...(cursor && {skip:1,cursor})
+      ...(cursor && {skip:1,cursor:{id:cursor}})
     })}
   }
 }

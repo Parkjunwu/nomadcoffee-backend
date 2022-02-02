@@ -11,16 +11,51 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  username       String   @unique
-  email          String   @unique
+  id             Int          @id @default(autoincrement())
+  username       String       @unique
+  email          String       @unique
   name           String
   location       String
   password       String
   avatarURL      String?
   githubUsername String?
-  follower       User[]   @relation("follow", references: [id])
-  following      User[]   @relation("follow", references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  follower       User[]       @relation("follow", references: [id])
+  following      User[]       @relation("follow", references: [id])
+  coffeeShop     CoffeeShop[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model CoffeeShopPhoto {
+  id           Int        @id @default(autoincrement())
+  url          String
+  shop         CoffeeShop @relation(fields: [coffeeShopId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  coffeeShopId Int
+}
+
+model CoffeeShop {
+  id         Int                    @id @default(autoincrement())
+  name       String
+  latitude   String
+  longitude  String
+  photos     CoffeeShopPhoto[]
+  categories CoffeeShopOnCategory[]
+  user       User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     Int
+}
+
+model Category {
+  id    Int                    @id @default(autoincrement())
+  name  String                 @unique
+  slug  String
+  shops CoffeeShopOnCategory[]
+}
+
+model CoffeeShopOnCategory {
+  coffeeShop   CoffeeShop @relation(fields: [coffeeShopId], references: [id])
+  category     Category   @relation(fields: [categoryId], references: [id])
+  coffeeShopId Int
+  categoryId   Int
+
+  @@id([coffeeShopId, categoryId])
 }
