@@ -10,6 +10,8 @@ import * as logger from "morgan"
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  playground: true,
+  introspection: true,
   context:async(context)=>{
     try {
       const token = context.req.headers.token
