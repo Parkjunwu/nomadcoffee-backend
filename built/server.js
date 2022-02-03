@@ -47,6 +47,8 @@ var logger = require("morgan");
 var server = new apollo_server_express_1.ApolloServer({
     typeDefs: schema_1.typeDefs,
     resolvers: schema_1.resolvers,
+    playground: true,
+    introspection: true,
     context: function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var token, secretKey, decoded, username, loggedInUser, e_1;
         return __generator(this, function (_a) {
